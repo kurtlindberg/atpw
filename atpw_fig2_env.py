@@ -39,7 +39,7 @@ arc = pd.read_excel(
 arc_data = atpw_fun.map_era5clim(arc, use_sample_year="yes")
 arc_data = atpw_fun.map_oipc(arc_data)
 
-eca_data = arc_data[arc_data['site_name'].str.contains("AFR|CF8|QPT|3LN")].reset_index()
+eca_data = arc_data[arc_data['site_name'].str.contains("AFR|CF8|3LN")].reset_index()
 # eca_data = arc_data[arc_data['study'] == 'Hollister_et_al_2022'].reset_index(drop=True)
 
 # Calculate temperature averages
