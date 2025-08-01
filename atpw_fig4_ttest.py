@@ -45,65 +45,17 @@ arc_data = atpw_fun.map_oipc(arc_data)
 arc_data = arc_data.groupby(['genus','species','growth_form','habitat','site_name','sample_year']).mean(numeric_only=True).reset_index()
 
 # Calculate plant wax indices
-ftconc = atpw_fun.tconc(
-    arc_data,
-    data_type="f",
-    tconc_name="ftconc",
-    log="yes"
-)
-atconc = atpw_fun.tconc(
-    arc_data,
-    data_type="a",
-    tconc_name="atconc",
-    log="yes"
-)
+ftconc = atpw_fun.tconc(arc_data, data_type="f", tconc_name="ftconc", log="yes")
+atconc = atpw_fun.tconc(arc_data, data_type="a", tconc_name="atconc", log="yes")
 
-facl = atpw_fun.wax_acl(
-    arc_data,
-    data_type="f",
-    start_chain=20,
-    end_chain=32,
-    acl_name="facl"
-)
-aacl = atpw_fun.wax_acl(
-    arc_data,
-    data_type="a",
-    start_chain=21,
-    end_chain=33,
-    acl_name="aacl"
-)
+facl = atpw_fun.wax_acl(arc_data, data_type="f", start_chain=20, end_chain=32, acl_name="facl")
+aacl = atpw_fun.wax_acl(arc_data, data_type="a", start_chain=21, end_chain=33, acl_name="aacl")
 
-fd13c = atpw_fun.iso_avg(
-    arc_data,
-    data_type="f",
-    start_chain=22,
-    end_chain=28,
-    iso_type="d13c",
-    iso_name="fd13c"
-)
-ad13c = atpw_fun.iso_avg(
-    arc_data,
-    data_type="a",
-    start_chain=23,
-    end_chain=29,
-    iso_type="d13c",
-    iso_name="ad13c"
-)
+fd13c = atpw_fun.iso_avg(arc_data, data_type="f", start_chain=22, end_chain=28, iso_type="d13c", iso_name="fd13c")
+ad13c = atpw_fun.iso_avg(arc_data, data_type="a", start_chain=23, end_chain=29, iso_type="d13c", iso_name="ad13c")
 
-feapp = atpw_fun.wax_precip_eapp_maf(
-    arc_data,
-    data_type="f",
-    start_chain=22,
-    end_chain=28,
-    eapp_name="feapp"
-)
-aeapp = atpw_fun.wax_precip_eapp_maf(
-    arc_data,
-    data_type="a",
-    start_chain=23,
-    end_chain=29,
-    eapp_name="aeapp"
-)
+feapp = atpw_fun.wax_precip_eapp_maf(arc_data, data_type="f", start_chain=22, end_chain=28, eapp_name="feapp")
+aeapp = atpw_fun.wax_precip_eapp_maf(arc_data, data_type="a", start_chain=23, end_chain=29, eapp_name="aeapp")
 
 arc_data = pd.concat(
     [
