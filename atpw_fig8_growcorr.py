@@ -55,6 +55,13 @@ gram_alks_corr_df, gram_alks_corr, gram_alks_corr_p = atpw_fun.envcorr(gram_data
 moss_fames_corr_df, moss_fames_corr, moss_fames_corr_p = atpw_fun.envcorr(moss_data, data_type="f")
 moss_alks_corr_df, moss_alks_corr, moss_alks_corr_p = atpw_fun.envcorr(moss_data, data_type="a")
 
+# shrub_fames_corr_p.to_csv('envcorr_out/shrub_fames_corr_p.csv')
+# shrub_alks_corr_p.to_csv('envcorr_out/shrub_alks_corr_p.csv')
+# gram_fames_corr_p.to_csv('envcorr_out/gram_fames_corr_p.csv')
+# gram_alks_corr_p.to_csv('envcorr_out/gram_alks_corr_p.csv')
+# moss_fames_corr_p.to_csv('envcorr_out/moss_fames_corr_p.csv')
+# moss_alks_corr_p.to_csv('envcorr_out/moss_alks_corr_p.csv')
+
 
 # Figure script
 growth_mask = np.triu(np.ones_like(shrub_fames_corr, dtype=bool))
