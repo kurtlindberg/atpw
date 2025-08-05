@@ -50,6 +50,11 @@ vas_alks_corr_df, vas_alks_corr, vas_alks_corr_p = atpw_fun.envcorr(vas_data, da
 nvas_fames_corr_df, nvas_fames_corr, nvas_fames_corr_p = atpw_fun.envcorr(nvas_data, data_type="f")
 nvas_alks_corr_df, nvas_alks_corr, nvas_alks_corr_p = atpw_fun.envcorr(nvas_data, data_type="a")
 
+# vas_fames_corr_p.to_csv('envcorr_out/vas_fames_corr_p.csv')
+# vas_alks_corr_p.to_csv('envcorr_out/vas_alks_corr_p.csv')
+# nvas_fames_corr_p.to_csv('envcorr_out/nvas_fames_corr_p.csv')
+# nvas_alks_corr_p.to_csv('envcorr_out/nvas_alks_corr_p.csv')
+
 
 # Figure script
 growth_mask = np.triu(np.ones_like(vas_fames_corr, dtype=bool))
