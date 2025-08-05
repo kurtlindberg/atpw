@@ -322,4 +322,4 @@ ax.figure.colorbar(sm, ax=axs[:,1], location='right', shrink=0.6)
 
 
 fig3_waxscatter = plt.gcf()
-fig3_waxscatter.savefig('figures/atpw_fig3_resultsbox.svg')
+# fig3_waxscatter.savefig('figures/atpw_fig3_resultsbox.svg')
