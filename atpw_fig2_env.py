@@ -9,7 +9,7 @@ DOI: pending
 
 Code author: Kurt R. Lindberg
 
-Figure 2
+Figure 2: ECA and pan-Arctic sampling site environmental parameters
 (a) mean temperature of the months above freezing
 (b) mean total precipiation amount of the months above freezing
 (c) mean relative humidity of the months above freezing
@@ -31,16 +31,18 @@ plt.rcParams['svg.fonttype'] = 'none'
 plt.rcParams['font.size'] = 10
 plt.rcParams['font.family'] = "Liberation Sans"
 
-# Import data from main .xlsx file
+
+# Import master plant wax datafile and map climate info onto it
 arc = pd.read_excel(
     'Lindberg_Arctic_terrestrial_plantwax.xlsx',
     sheet_name = 'plantwax'
 )
 arc_data = atpw_fun.map_era5clim(arc, use_sample_year="yes")
 arc_data = atpw_fun.map_oipc(arc_data)
+arc_data = arc_data.groupby(['site_name','sample_year']).mean(numeric_only=True).reset_index()
 
 eca_data = arc_data[arc_data['site_name'].str.contains("AFR|CF8|3LN")].reset_index()
-# eca_data = arc_data[arc_data['study'] == 'Hollister_et_al_2022'].reset_index(drop=True)
+arc_data = arc_data[arc_data['site_name'].str.contains("AFR|CF8|3LN") == False].reset_index()
 
 # Calculate temperature averages
 eca_temp = eca_data.filter(regex="temp")
@@ -90,11 +92,11 @@ fig, axs = plt.subplots(3,2)
 ax = axs[0,0]
 sns.scatterplot(
     ax=ax, x=arc_data.lat, y=arc_temp.maf,
-    marker='o', s=50, facecolors='#cb181d', zorder=5
+    marker='o', s=50, facecolors='#cb181d', edgecolors='black', zorder=5
 )
 sns.scatterplot(
     ax=ax, x=eca_data.lat, y=eca_temp.maf,
-    marker='s', s=50, facecolors='#cb181d', edgecolors='black', zorder=10
+    marker='D', s=35, facecolors='#cb181d', edgecolors='black', zorder=10
 )
 ax.set_xlim([55,75])
 ax.set_xticklabels("")
@@ -110,11 +112,11 @@ ax.set_ylabel("MAF Temperature C")
 ax = axs[0,1]
 sns.scatterplot(
     ax=ax, x=arc_data.lat, y=arc_precip.maf*1000,
-    marker='o', s=50, facecolors='#2171b5', zorder=10
+    marker='o', s=50, facecolors='#2171b5', edgecolors='black', zorder=5
 )
 sns.scatterplot(
     ax=ax, x=eca_data.lat, y=eca_precip.maf*1000,
-    marker='s', s=50, facecolors='#2171b5', edgecolors='black', zorder=10
+    marker='D', s=35, facecolors='#2171b5', edgecolors='black', zorder=10
 )
 ax.yaxis.set_label_position("right")
 ax.yaxis.set_ticks_position("right")
@@ -132,11 +134,11 @@ ax.set_ylabel("MAF Total Precipitation (mm)")
 ax = axs[1,0]
 sns.scatterplot(
     ax=ax, x=arc_data.lat, y=arc_rh.maf,
-    marker='o', s=50, facecolors='#6a51a3', zorder=5
+    marker='o', s=50, facecolors='#6a51a3', edgecolors='black', zorder=5
 )
 sns.scatterplot(
     ax=ax, x=eca_data.lat, y=eca_rh.maf,
-    marker='s', s=50, facecolors='#6a51a3', edgecolors='black', zorder=10
+    marker='D', s=35, facecolors='#6a51a3', edgecolors='black', zorder=10
 )
 ax.set_xlim([55,75])
 ax.set_ylim([55,85])
@@ -152,11 +154,11 @@ ax.set_ylabel("MAF Relative Humidity (%)")
 ax = axs[1,1]
 sns.scatterplot(
     ax=ax, x=arc_data.lat, y=arc_data.elevation,
-    marker='o', s=50, facecolors="grey", zorder=5
+    marker='o', s=50, facecolors="grey", edgecolors='black', zorder=5
 )
 sns.scatterplot(
     ax=ax, x=eca_data.lat, y=eca_data.elevation,
-    marker='s', s=50, facecolors='grey', edgecolors='black', zorder=10
+    marker='D', s=35, facecolors='grey', edgecolors='black', zorder=10
 )
 ax.yaxis.set_label_position("right")
 ax.yaxis.set_ticks_position("right")
@@ -173,11 +175,11 @@ ax.set_ylabel("Elevation (m)")
 ax = axs[2,0]
 sns.scatterplot(
     ax=ax, x=arc_data.lat, y=arc_oipc.maf,
-    marker='o', s=50, facecolors='#238b45', zorder=5
+    marker='o', s=50, facecolors='#238b45', edgecolors='black', zorder=5
 )
 sns.scatterplot(
     ax=ax, x=eca_data.lat, y=eca_oipc.maf,
-    marker='s', s=50, facecolors='#238b45', edgecolors='black', zorder=10
+    marker='D', s=35, facecolors='#238b45', edgecolors='black', zorder=10
 )
 ax.set_xlim([55,75])
 ax.set_ylim([-160,-65])
@@ -190,5 +192,6 @@ ax.set_ylabel("MAF Precipitation d2H")
 
 fig.delaxes(axs[2,1])
 
-figure2_env = plt.gcf()
-# figure2_env.savefig('figures/atpw_figure2_env.svg')
+
+fig2_env = plt.gcf()
+# fig2_env.savefig('figures/atpw_fig2_env.svg')
