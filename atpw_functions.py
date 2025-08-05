@@ -20,6 +20,7 @@ import math
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 from composition_stats import clr, closure, multiplicative_replacement
+import scipy.stats
 
 
 # Calculate total plant wax concentration
@@ -881,3 +882,75 @@ def wax_pca(df, data_type, groupby="species"):
     }
 
     return wax_df, pca_dict
+
+
+# Calculate p-values for each Pearson correlation matrix cell
+def corr_pvalues(df):
+
+    df = df._get_numeric_data()
+    dfcols = pd.DataFrame(columns=df.columns)
+    pvalues = dfcols.transpose().join(dfcols, how='outer')
+
+    for r in df.columns:
+        for c in df.columns:
+
+            if c == r:
+                df_corr = df[[r]].dropna()
+            else:
+                df_corr = df[[r,c]].dropna()
+
+            if (len(df_corr[r]) >= 2) and (len(df_corr[c]) >= 2):
+                pvalues[r][c] = scipy.stats.pearsonr(df_corr[r], df_corr[c])[1]
+            else:
+                pvalues[r][c] = np.nan
+
+    pvalues = pd.DataFrame(data=pvalues, index=df.columns, columns=df.columns)
+
+    return pvalues
+
+
+# Produce Pearson correlation matrix from input dataframe
+def envcorr(df, data_type):
+
+    match data_type:
+        case "f":
+            chain_start = 20
+            chain_end = 32
+            iso_start = 22
+            iso_end = 28
+
+        case "a":
+            chain_start = 21
+            chain_end = 33
+            iso_start = 23
+            iso_end = 29
+
+    elev = pd.Series(data=df.elevation, name='E')
+    temp_maf = maf(df, data_type="temp", maf_name="T")
+    precip_maf = maf(df, data_type="precip", maf_name="P")
+    rh_maf = maf(df, data_type="rh", maf_name="RH")
+    # pd2h_maf = maf(df, data_type="pd2h", maf_name="d2H")
+
+    wax_tconc = tconc(df, data_type=data_type, tconc_name='logC', log="yes")
+    acl = wax_acl(df, data_type=data_type, start_chain=chain_start, end_chain=chain_end, acl_name='ACL')
+    c1c4_d13c = iso_avg(df, data_type=data_type, start_chain=iso_start, end_chain=iso_end, iso_type="d13c", iso_name='d13C')
+    c1c4_eapp_maf = wax_precip_eapp_maf(df, data_type=data_type, start_chain=iso_start, end_chain=iso_end, eapp_name='eapp')
+
+    corr_df = pd.concat(
+        [
+            temp_maf,
+            precip_maf,
+            rh_maf,
+            elev,
+            # pd2h_maf,
+            wax_tconc,
+            acl,
+            c1c4_d13c,
+            c1c4_eapp_maf
+        ], axis=1
+    )
+    # print(np.shape(np.array(corr_df)))
+    corr = corr_df.corr(min_periods=3, numeric_only=True)
+    corr_p = corr_pvalues(corr_df)
+
+    return corr_df, corr, corr_p
