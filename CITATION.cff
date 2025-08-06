@@ -1,0 +1,11 @@
+cff-version: 2025.08.06
+message: "Please cite the code for this study as below."
+authors:
+  - family-names: "Lindberg"
+    given-names: "Kurt"
+    orcid: "https://orcid.org/0000-0003-0863-1598"
+title: "Arctic terrestrial plant wax code and data"
+version: v1.0.0
+doi: "10.5281/zenodo.16754311"
+date-released: 2025-08-06
+url: "https://github.com/kurtlindberg/atpw"
