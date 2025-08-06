@@ -56,6 +56,7 @@ fig, axs = plt.subplots(2,2,layout='constrained')
 
 # n-alkanoic acid CPI (C20-C32)
 ax = axs[0,0]
+ax.set_title("n-alkanoic acids")
 sns.scatterplot(
     ax=ax, x=arc_data.cat+0.2, y=arc_data.fcpi_c20c32,
     hue=arc_data.lat, s=20, marker='o', palette='Blues', edgecolors='black', zorder=5
@@ -81,6 +82,7 @@ ax.legend('', frameon=False)
 
 # n-alkane CPI (C21-C33)
 ax = axs[0,1]
+ax.set_title("n-alkanes")
 sns.scatterplot(
     ax=ax, x=arc_data.cat+0.2, y=arc_data.acpi_c21c33,
     hue=arc_data.lat, s=20, marker='o', palette='Blues', edgecolors='black', zorder=5
@@ -98,7 +100,7 @@ ax.set_ylim([0.5,150])
 ax.set_yscale('log')
 ax.set_xticks(
     ticks=[1,2,3,4,5,6,7,8],
-    labels=["Tree","Shrub","Forb","Fern","Grass","Moss","Liverwort","Lichen"],
+    labels=["Tree","Shrub","Forb","Fern","Graminoid","Moss","Liverwort","Lichen"],
     rotation=45
 )
 # ax.set_yticks()
