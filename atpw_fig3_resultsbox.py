@@ -275,7 +275,7 @@ ax.set_xlim([0,9])
 ax.set_ylim([-250,0])
 ax.set_xticks(
     ticks=[1,2,3,4,5,6,7,8],
-    labels=["Tree","Shrub","Forb","Fern","Grass","Moss","Liverwort","Lichen"],
+    labels=["Tree","Shrub","Forb","Fern","Graminoid","Moss","Liverwort","Lichen"],
     rotation=45
 )
 ax.set_yticks(
@@ -306,7 +306,7 @@ ax.set_yticks(
 )
 ax.set_xticks(
     ticks=[1,2,3,4,5,6,7,8],
-    labels=["Tree","Shrub","Forb","Fern","Grass","Moss","Liverwort","Lichen"],
+    labels=["Tree","Shrub","Forb","Fern","Graminoid","Moss","Liverwort","Lichen"],
     rotation=45
 )
 ax.set_xlabel("")
