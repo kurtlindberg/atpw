@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.16754381.svg)](https://doi.org/10.5281/zenodo.16754381)
+
 # atpw
 
 Code and data for analysis and figures (Fig. 2-9; Fig. S1-S3; Table S1) from Lindberg et al. (in prep). To be submitted to _Biogeosciences_.
