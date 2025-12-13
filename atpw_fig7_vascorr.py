@@ -9,14 +9,12 @@ DOI: pending
 
 Code author: Kurt R. Lindberg
 
-Figure 8: Pearson correlation matrices of shrub, graminoid, and moss plant wax
+Figure 7: Pearson correlation matrices of vascular and non-vascular plant wax
 data vs. environmental parameters
-(a) n-alkanoic acid shrubs
-(b) n-alkane shrubs
-(c) n-alkanoic acid graminoids
-(d) n-alkane graminoids
-(e) n-alkanoic acid mosses
-(f) n-alkane mosses
+(a) n-alkanoic acid vascular plants
+(b) n-alkane vascular plants
+(c) n-alkanoic acid non-vascular plants
+(d) n-alkane non-vascular plants
 """
 
 # See atpw_conda_env.py
@@ -44,51 +42,45 @@ arc_data = (
     .reset_index()
 )
 
-shrub_data = arc_data[arc_data["growth_form"] == "shrub"].reset_index(drop=True)
-gram_data = arc_data[arc_data["growth_form"] == "graminoid"].reset_index(drop=True)
-moss_data = arc_data[arc_data["growth_form"] == "moss"].reset_index(drop=True)
+vas_data = arc_data[
+    arc_data["growth_form"].str.contains("tree|shrub|forb|fern|graminoid")
+].reset_index(drop=True)
+nvas_data = arc_data[
+    arc_data["growth_form"].str.contains("moss|liverwort|lichen")
+].reset_index(drop=True)
 
 # Create Pearson correlation matrices
-shrub_fames_corr_df, shrub_fames_corr, shrub_fames_corr_p = atpw_fun.envcorr(
-    shrub_data, data_type="f"
+vas_fames_corr_df, vas_fames_corr, vas_fames_corr_p = atpw_fun.envcorr(
+    vas_data, data_type="f"
 )
-shrub_alks_corr_df, shrub_alks_corr, shrub_alks_corr_p = atpw_fun.envcorr(
-    shrub_data, data_type="a"
-)
-
-gram_fames_corr_df, gram_fames_corr, gram_fames_corr_p = atpw_fun.envcorr(
-    gram_data, data_type="f"
-)
-gram_alks_corr_df, gram_alks_corr, gram_alks_corr_p = atpw_fun.envcorr(
-    gram_data, data_type="a"
+vas_alks_corr_df, vas_alks_corr, vas_alks_corr_p = atpw_fun.envcorr(
+    vas_data, data_type="a"
 )
 
-moss_fames_corr_df, moss_fames_corr, moss_fames_corr_p = atpw_fun.envcorr(
-    moss_data, data_type="f"
+nvas_fames_corr_df, nvas_fames_corr, nvas_fames_corr_p = atpw_fun.envcorr(
+    nvas_data, data_type="f"
 )
-moss_alks_corr_df, moss_alks_corr, moss_alks_corr_p = atpw_fun.envcorr(
-    moss_data, data_type="a"
+nvas_alks_corr_df, nvas_alks_corr, nvas_alks_corr_p = atpw_fun.envcorr(
+    nvas_data, data_type="a"
 )
 
-# shrub_fames_corr_p.to_csv('envcorr_out/shrub_fames_corr_p.csv')
-# shrub_alks_corr_p.to_csv('envcorr_out/shrub_alks_corr_p.csv')
-# gram_fames_corr_p.to_csv('envcorr_out/gram_fames_corr_p.csv')
-# gram_alks_corr_p.to_csv('envcorr_out/gram_alks_corr_p.csv')
-# moss_fames_corr_p.to_csv('envcorr_out/moss_fames_corr_p.csv')
-# moss_alks_corr_p.to_csv('envcorr_out/moss_alks_corr_p.csv')
+# vas_fames_corr_p.to_csv('envcorr_out/vas_fames_corr_p.csv')
+# vas_alks_corr_p.to_csv('envcorr_out/vas_alks_corr_p.csv')
+# nvas_fames_corr_p.to_csv('envcorr_out/nvas_fames_corr_p.csv')
+# nvas_alks_corr_p.to_csv('envcorr_out/nvas_alks_corr_p.csv')
 
 
 # Figure script
-growth_mask = np.triu(np.ones_like(shrub_fames_corr, dtype=bool))
+growth_mask = np.triu(np.ones_like(vas_fames_corr, dtype=bool))
 
-fig, axs = plt.subplots(3, 2, layout="constrained")
+fig, axs = plt.subplots(3,2,layout="constrained")
 
-# n-alkanoic acid shrubs
-ax = axs[0, 0]
+# n-alkanoic acid vascular plants
+ax = axs[0,0]
 ax.set_title("n-alkanoic acids")
 sns.heatmap(
     ax=ax,
-    data=shrub_fames_corr,
+    data=vas_fames_corr,
     cmap="coolwarm",
     cbar=False,
     vmin=-1.0,
@@ -99,12 +91,12 @@ sns.heatmap(
     fmt=".2f",
 )
 
-# n-alkane shrubs
-ax = axs[0, 1]
+# n-alkane vascular plants
+ax = axs[0,1]
 ax.set_title("n-alkanes")
 sns.heatmap(
     ax=ax,
-    data=shrub_alks_corr,
+    data=vas_alks_corr,
     cmap="coolwarm",
     cbar=True,
     vmin=-1.0,
@@ -115,11 +107,11 @@ sns.heatmap(
     fmt=".2f",
 )
 
-# n-alkanoic acid graminoids
-ax = axs[1, 0]
+# n-alkanoic vascular plants
+ax = axs[1,0]
 sns.heatmap(
     ax=ax,
-    data=gram_fames_corr,
+    data=nvas_fames_corr,
     cmap="coolwarm",
     cbar=False,
     vmin=-1.0,
@@ -130,11 +122,11 @@ sns.heatmap(
     fmt=".2f",
 )
 
-# n-alkane graminoids
-ax = axs[1, 1]
+# n-alkane vascular plants
+ax = axs[1,1]
 sns.heatmap(
     ax=ax,
-    data=gram_alks_corr,
+    data=nvas_alks_corr,
     cmap="coolwarm",
     cbar=False,
     vmin=-1.0,
@@ -145,36 +137,9 @@ sns.heatmap(
     fmt=".2f",
 )
 
-# n-alkanoic acid mosses
-ax = axs[2, 0]
-sns.heatmap(
-    ax=ax,
-    data=moss_fames_corr,
-    cmap="coolwarm",
-    cbar=False,
-    vmin=-1.0,
-    vmax=1.0,
-    mask=growth_mask,
-    annot=True,
-    annot_kws={"fontsize": 6},
-    fmt=".2f",
-)
-
-# n-alkane mosses
-ax = axs[2, 1]
-sns.heatmap(
-    ax=ax,
-    data=moss_alks_corr,
-    cmap="coolwarm",
-    cbar=False,
-    vmin=-1.0,
-    vmax=1.0,
-    mask=growth_mask,
-    annot=True,
-    annot_kws={"fontsize": 6},
-    fmt=".2f",
-)
+fig.delaxes(axs[2,0])
+fig.delaxes(axs[2,1])
 
 
-fig8_growcorr = plt.gcf()
-fig8_growcorr.savefig("figures/atpw_fig8_growcorr.svg", dpi=300)
+fig7_vascorr = plt.gcf()
+# fig7_vascorr.savefig("figures/atpw_fig7_vascorr.svg", dpi=300)
