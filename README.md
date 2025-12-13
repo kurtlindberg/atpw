@@ -2,7 +2,7 @@
 
 # atpw
 
-Code and data for analysis and figures (Fig. 2-9; Fig. S1-S3; Table S1) from Lindberg et al. (in prep). To be submitted to _Biogeosciences_.
+Code and data for analysis and figures (Fig. 2-9; Fig. S1-S3; Table S1) from Lindberg et al. (in revision). To be submitted to _Biogeosciences_.
 
 Figure 1 was created using ArcGIS software and the [shapefile](https://www.arcgis.com/home/item.html?id=d3d515c5443f4017951765d44addaac8) of the Circumpolar Arctic Bioclimate Subzones map (Walker et al., 2005).
 
